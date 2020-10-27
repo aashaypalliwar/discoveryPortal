@@ -3,7 +3,8 @@
   "author": "DeviasIO",
   "licence": "MIT",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
+  "proxy": "http://localhost:3000",
   "scripts": {
     "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
