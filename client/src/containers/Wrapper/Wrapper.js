@@ -6,7 +6,8 @@ import axios from 'axios';
 
 class Wrapper extends Component {
   state = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    user: null
   };
   successResponseGoogle = response => {
     console.log(response);
@@ -36,7 +37,9 @@ class Wrapper extends Component {
         .then(response => {
           console.log('login');
           console.log(response.data);
+          this.setState({ user: response.data.user });
           this.setState({ isLoggedIn: true });
+          // console.log(this.state.user);
         })
         .catch(err => console.log(err));
     }
@@ -50,7 +53,7 @@ class Wrapper extends Component {
     return (
       <div>
         {this.state.isLoggedIn ? (
-          <Layout />
+          <Layout user={this.state.user} />
         ) : (
           <GoogleLogin
             className="google-login"

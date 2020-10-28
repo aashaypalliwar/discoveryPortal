@@ -108,7 +108,7 @@ const logOut = () => {
   // this.props.callFunc();
 };
 
-const NavBar = ({ onMobileClose, openMobile }) => {
+const NavBar = ({ user, onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
 
@@ -125,7 +125,7 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         <Avatar
           className={classes.avatar}
           component={RouterLink}
-          src={user.avatar}
+          src={user.image}
           to="/app/account"
         />
         <Typography className={classes.name} color="textPrimary" variant="h5">
