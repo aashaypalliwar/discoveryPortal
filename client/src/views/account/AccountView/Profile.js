@@ -36,6 +36,7 @@ const Profile = ({profile, className, ...rest }) => {
   // };
   
   return (
+    <div>
     <Card
       className={clsx(classes.root, className)}
       {...rest}
@@ -89,6 +90,64 @@ const Profile = ({profile, className, ...rest }) => {
         </Button>
       </CardActions> */}
     </Card>
+    <br></br>
+    <br></br>
+    <Card
+      className={clsx(classes.root, className)}
+      {...rest}
+    >
+      <CardContent>
+        <Box
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+        >
+          <Typography
+            color="textPrimary"
+            gutterBottom
+            variant="h3"
+          >
+            Personal details
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body1"
+          >
+            <span style={{fontWeight:'bold'}}>Branch : </span>  {profile.branch}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body1"
+          >
+          <span style={{fontWeight:'bold'}}>Admission year : </span> {profile.admissionYear||'Update'}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body1"
+          >
+          <span style={{fontWeight:'bold'}}>Graduation year : </span> {profile.graduationYear||'Update'}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="body1"
+          >
+          <span style={{fontWeight:'bold'}}>Publish Status : </span> {profile.publishStatus? 'True' : 'False'}
+          </Typography>
+        </Box>
+      </CardContent>
+      <Divider />
+      {/* <CardActions>
+        <Button
+          color="primary"
+          fullWidth
+          variant="text"
+        >
+          Upload picture
+        </Button>
+      </CardActions> */}
+    </Card>
+    
+    </div>
   );
 };
 

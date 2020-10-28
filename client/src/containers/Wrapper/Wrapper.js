@@ -77,7 +77,7 @@ class Wrapper extends Component {
         ) : (
           <GoogleLogin
             className="google-login"
-            clientId={REACT_APP_CLIENT_ID}
+            clientId="1092979243632-ufl3842hjal4adoaio73ta2noj2avnbo.apps.googleusercontent.com"
             buttonText="Login with Google"
             isSignedIn={true}
             onSuccess={this.successResponseGoogle}
@@ -93,3 +93,6 @@ class Wrapper extends Component {
 }
 
 export default withCookies(Wrapper);
+
+
+

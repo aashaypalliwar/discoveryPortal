@@ -111,7 +111,7 @@ const logOut = () => {
 const NavBar = ({ user, onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
-
+  
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();

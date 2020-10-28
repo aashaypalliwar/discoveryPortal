@@ -28,6 +28,7 @@ class Account extends Component {
   updateProfile = (values)=>{
     this.setState({isLoading:true});
     const data = {...values};
+    console.log(data);
     axios.patch('/v1/user/profile',data,
     {
       withCredentials : true
