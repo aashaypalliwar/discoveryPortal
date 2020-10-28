@@ -14,14 +14,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
-};
+
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -31,9 +24,17 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Profile = ({ className, ...rest }) => {
+const Profile = ({profile, className, ...rest }) => {
   const classes = useStyles();
-
+  // const user = {
+  //   avatar: '/static/images/avatars/avatar_6.png',
+  //   city: 'Los Angeles',
+  //   country: 'USA',
+  //   jobTitle: 'Senior Developer',
+  //   name: 'Katarina Smith',
+  //   timezone: 'GTM-7'
+  // };
+  
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -47,32 +48,38 @@ const Profile = ({ className, ...rest }) => {
         >
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={profile.image}
           />
           <Typography
             color="textPrimary"
             gutterBottom
             variant="h3"
           >
-            {user.name}
+            {profile.name}
           </Typography>
           <Typography
             color="textSecondary"
             variant="body1"
           >
-            {`${user.city} ${user.country}`}
+            <span style={{fontWeight:'bold'}}>Email : </span>  {profile.email}
           </Typography>
           <Typography
+            color="textSecondary"
+            variant="body1"
+          >
+          <span style={{fontWeight:'bold'}}>Bio : </span> {profile.bio}
+          </Typography>
+          {/* <Typography
             className={classes.dateText}
             color="textSecondary"
             variant="body1"
           >
             {`${moment().format('hh:mm A')} ${user.timezone}`}
-          </Typography>
+          </Typography> */}
         </Box>
       </CardContent>
       <Divider />
-      <CardActions>
+      {/* <CardActions>
         <Button
           color="primary"
           fullWidth
@@ -80,7 +87,7 @@ const Profile = ({ className, ...rest }) => {
         >
           Upload picture
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };

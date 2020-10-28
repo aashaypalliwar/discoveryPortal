@@ -1,14 +1,33 @@
-  
 import React, { Component } from 'react';
 import Layout from './../../layouts/Layout';
 import GoogleLogin from 'react-google-login';
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
 
 class Wrapper extends Component {
   state = {
     isLoggedIn: false,
     user: null
   };
+  checkIsLoggedIn = ()=>{
+    axios.get('/v1/auth/loginStatus',{
+      withCredentials : true
+    })
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          isLoggedIn: true,
+          user : response.data.user
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ isLoggedIn: false });
+      });
+  }
+  componentDidMount = ()=>{
+    this.checkIsLoggedIn();
+  }
   successResponseGoogle = response => {
     console.log(response);
     const emailUsed = response.profileObj.email;
@@ -50,6 +69,7 @@ class Wrapper extends Component {
   };
 
   render() {
+  console.log(this.state.isLoggedIn);
     return (
       <div>
         {this.state.isLoggedIn ? (
@@ -57,7 +77,7 @@ class Wrapper extends Component {
         ) : (
           <GoogleLogin
             className="google-login"
-            clientId="1092979243632-ufl3842hjal4adoaio73ta2noj2avnbo.apps.googleusercontent.com"
+            clientId={REACT_APP_CLIENT_ID}
             buttonText="Login with Google"
             isSignedIn={true}
             onSuccess={this.successResponseGoogle}
@@ -72,4 +92,4 @@ class Wrapper extends Component {
   }
 }
 
-export default Wrapper;
+export default withCookies(Wrapper);

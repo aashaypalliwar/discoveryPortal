@@ -11,7 +11,6 @@ import setUserAsProps from 'src/routes';
 // import routes from 'src/routes';
 
 const Layout = props => {
-  console.log(props.user);
   //   const routing = useRoutes(() => {
   //     let routes = setUserAsProps(props);
   //     return routes;

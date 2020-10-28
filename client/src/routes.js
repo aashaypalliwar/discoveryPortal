@@ -18,7 +18,7 @@ const setUserAsProps = user => {
       path: '/',
       element: <DashboardLayout user={user} />,
       children: [
-        { path: 'profile', element: <AccountView /> },
+        { path: 'profile', element: <AccountView user={user} /> },
         { path: 'discover', element: <CustomerListView /> },
         // { path: 'dashboard', element: <DashboardView /> },
         // { path: 'products', element: <ProductListView /> },
