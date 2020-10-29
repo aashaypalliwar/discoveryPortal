@@ -22,6 +22,7 @@ class CustomerListView extends Component {
   
   state = {
     users : [],
+    tags:[],
     isLoading:false,
   }
   getAllUsers = () =>{
@@ -34,8 +35,21 @@ class CustomerListView extends Component {
       this.setState({users:data,isLoading : false});
     })
   }
+  getAllTags = () =>{
+    this.setState({isLoading:true});
+    axios.get('/v1/user/tag',{
+      withCredentials : true
+    }).then(response=>{
+      this.setState({tags:response.data.data.docs,isLoading:false});
+    }).catch(err=>{
+      this.setState({tags:data,isLoading : false});
+    })
+  }
+  
+  
   componentDidMount = ()=>{
      this.getAllUsers();
+     this.getAllTags();
   } 
   render(){
   const {classes} = this.props;
@@ -45,12 +59,12 @@ class CustomerListView extends Component {
     {!this.state.isLoading?(
     <Page
       className={classes.root}
-      title="Customers"
+      title="Discover"
     >
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          <Results customers={this.state.users} />
+          <Results customers={this.state.users} tags = {this.state.tags} />
         </Box>
       </Container>
     </Page>) : null}

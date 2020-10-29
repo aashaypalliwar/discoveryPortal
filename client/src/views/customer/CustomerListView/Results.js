@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import axios from 'axios'
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -9,8 +10,14 @@ import {
   Card,
   Checkbox,
   CardContent,
-  Input,
+  Chip,
   Table,
+  FormControl,
+  Select,
+  Input,
+  InputLabel,
+  Grid,
+  MenuItem,
   TableBody,
   TableCell,
   TableHead,
@@ -24,19 +31,42 @@ import {
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
 import { Search as SearchIcon } from 'react-feather';
+import { filter } from 'lodash';
 const useStyles = makeStyles((theme) => ({
   root: {},
   avatar: {
     marginRight: theme.spacing(2)
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
 }));
-
-const Results = ({ className, customers, ...rest }) => {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+const Results = ({ className, customers,tags, ...rest }) => {
   const classes = useStyles();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [users,setUsers] = useState(customers);
+  const [selectedTags,setTags] = useState([]);
   const [search , setSearch] = useState('');
   // const handleSelectAll = (event) => {
   //   let newSelectedCustomerIds;
@@ -77,15 +107,33 @@ const Results = ({ className, customers, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+  
+  const handleChange = (event) => {
+    setTags(event.target.value);
+    searchUserByTag();
+  };
+  const searchUserByTag = ()=>{
+    const tagsSelected = selectedTags.map((tag)=>{return tag._id});
+    console.log(tagsSelected);
 
-  const searchUser = (event)=>{
-    setSearch(event.target.value);
+    axios
+    .post('http://localhost:3000/v1/search/tags',tagsSelected
+     ,{
+      withCredentials : true
+    }).then(response=>{
+      console.log(response.data);
+    }).catch(err=>console.log(err));
+  }
+  const searchUser = async (event)=>{
+    await setSearch(event.target.value);
     filterResults();
   }
+ 
 
   const filterResults = ()=>{
     let filterUsers = customers.filter((user)=>{
-      return user.name.toLowerCase().indexOf(search.toLowerCase())!==-1;
+      return (
+        user.name.toLowerCase().indexOf(search.toLowerCase())!==-1 || user.email.toLowerCase().indexOf(search.toLowerCase())!==-1);
     });
     setUsers(filterUsers);
   }
@@ -95,7 +143,13 @@ const Results = ({ className, customers, ...rest }) => {
       <Box mt={3}>
         <Card>
           <CardContent>
-            <Box maxWidth={500}>
+            <Grid
+             container
+             spacing = {3}>
+            <Grid 
+              item
+              md={5}
+              xs={12}>
               <Input
                 fullWidth
                 InputProps={{
@@ -111,10 +165,41 @@ const Results = ({ className, customers, ...rest }) => {
                   )
                 }}
                 onChange = {searchUser}
-                placeholder="Search User"
+                placeholder="Search User by name or email"
                 variant="outlined"
               />
-            </Box>
+            </Grid>
+            <Grid 
+              item
+              md={5}
+              xs={12}>
+              <FormControl className={classes.formControl}>
+        <InputLabel id="demo-mutiple-chip-label">Tags</InputLabel>
+        <Select
+          labelId="demo-mutiple-chip-label"
+          id="demo-mutiple-chip"
+          multiple
+          value={selectedTags}
+          onChange={handleChange}
+          input={<Input id="select-multiple-chip" />}
+          renderValue={(selected) => (
+            <div className={classes.chips}>
+              {selected.map((value) => (
+                <Chip key={value.id} label={value.name} className={classes.chip} />
+              ))}
+            </div>
+          )}
+          MenuProps={MenuProps}
+        >
+          {tags.map((tag) => (
+            <MenuItem key={tag.id} value={tag} >
+              {tag.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+            </Grid>
+            </Grid>
           </CardContent>
         </Card>
       </Box>
