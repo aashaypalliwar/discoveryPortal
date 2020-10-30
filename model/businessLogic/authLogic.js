@@ -128,12 +128,30 @@ const googleLogin = catchAsync(async (req, res, next) => {
             new AppError('Please use an email provided by IIT Bhubaneswar', 403)
           );
 
+<<<<<<< HEAD
+        try{
+        User.findOne({ email }).populate({
+          path: 'tags',
+          model: 'Tag',
+          select: 'name group',
+        }).exec(async (err, user) => {
+          if (err) {
+            return res.status(404).json({
+              message: err.message,
+            });
+          } else {
+           
+            if (user) {
+              await User.updateOne({ email },{ image : picture });
+              createSendToken(user, 200, res);
+=======
         try {
           User.findOne({ email }).exec(async (err, user) => {
             if (err) {
               return res.status(404).json({
                 message: err.message,
               });
+>>>>>>> 3c2d3fc760bb386be83dc6a60debb8d2559ad991
             } else {
               if (user) {
                 await User.updateOne({ email }, { image: picture });
