@@ -142,29 +142,30 @@ const googleLogin = catchAsync(async (req, res, next) => {
             new AppError('Please use an email provided by IIT Bhubaneswar', 403)
           );
 
-        try{
-        User.findOne({ email }).exec(async (err, user) => {
-          console.log('verified');
-          if (err) {
-            return res.status(404).json({
-              message: err.message,
-            });
-          } else {
-           
-            if (user) {
-              await User.updateOne({ email },{ image : picture });
-              createSendToken(user, 200, res);
+        try {
+          User.findOne({ email }).exec(async (err, user) => {
+            console.log('verified');
+            if (err) {
+              return res.status(404).json({
+                message: err.message,
+              });
             } else {
-             console.log(config.SIGNUP_TOGGLE)
-              if(config.SIGNUP_TOGGLE=="true") createUser(name, email, picture, res);
-              else {
-                visitor = {
-                  _id: email,
-                  name: name,
-                  email: email,
-                  role: 'visitor',
-                };
-                createSendToken(visitor, 200, res);
+              if (user) {
+                await User.updateOne({ email }, { image: picture });
+                createSendToken(user, 200, res);
+              } else {
+                console.log(config.SIGNUP_TOGGLE);
+                if (config.SIGNUP_TOGGLE == 'true')
+                  createUser(name, email, picture, res);
+                else {
+                  visitor = {
+                    _id: email,
+                    name: name,
+                    email: email,
+                    role: 'visitor',
+                  };
+                  createSendToken(visitor, 200, res);
+                }
               }
             }
           });
