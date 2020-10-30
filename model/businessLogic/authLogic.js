@@ -42,7 +42,7 @@ const createSendToken = (user, statusCode, res) => {
       status: 'success',
       verification: true,
       user,
-      expireAt
+      expireAt,
     });
   } catch (error) {
     throw new AppError(error.message, 500);
@@ -77,7 +77,7 @@ const verifyJwtToken = catchAsync(async (req, res, next) => {
   next();
 });
 
-const loggedInUser = catchAsync(async (req, res, next) => {  
+const loggedInUser = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(req.jwtPayload.id);
   if (!currentUser) {
     return next(
@@ -128,6 +128,7 @@ const googleLogin = catchAsync(async (req, res, next) => {
             new AppError('Please use an email provided by IIT Bhubaneswar', 403)
           );
 
+<<<<<<< HEAD
         try{
         User.findOne({ email }).populate({
           path: 'tags',
@@ -143,25 +144,41 @@ const googleLogin = catchAsync(async (req, res, next) => {
             if (user) {
               await User.updateOne({ email },{ image : picture });
               createSendToken(user, 200, res);
+=======
+        try {
+          User.findOne({ email }).exec(async (err, user) => {
+            if (err) {
+              return res.status(404).json({
+                message: err.message,
+              });
+>>>>>>> 3c2d3fc760bb386be83dc6a60debb8d2559ad991
             } else {
-              if(config.SIGNUP_TOGGLE=="true") createUser(name, email, picture, res);
-              else {
-                visitor = {
-                  _id: email,
-                  name: name,
-                  email: email,
-                  role: 'visitor',
-                };
-                createSendToken(visitor, 200, res);
+              if (user) {
+                await User.updateOne({ email }, { image: picture });
+                createSendToken(user, 200, res);
+              } else {
+                if (config.SIGNUP_TOGGLE == 'true')
+                  createUser(name, email, picture, res);
+                else {
+                  visitor = {
+                    _id: email,
+                    name: name,
+                    email: email,
+                    role: 'visitor',
+                  };
+                  createSendToken(visitor, 200, res);
+                }
               }
             }
-          }});
+          });
         } catch (err) {
           throw new AppError(err.message, 401);
         }
       }
     })
-    .catch((err) => {throw new AppError(err.message, 401);});
+    .catch((err) => {
+      throw new AppError(err.message, 401);
+    });
 });
 
 const logout = (req, res, next) => {
