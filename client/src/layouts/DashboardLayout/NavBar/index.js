@@ -95,7 +95,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const logOut = () => {
+const logOut = cookies => {
   // this.setState({ isLoggedIn: false });
   axios
     .post('/api/v1/auth/logout', {
@@ -103,6 +103,8 @@ const logOut = () => {
     })
     .then(response => {
       console.log(response);
+      cookies.cookies.remove('isLoggedIn', { path: '/' });
+      cookies.cookies.remove('userData', { path: '/' });
       window.location.reload();
     })
     .catch(err => {
@@ -111,7 +113,7 @@ const logOut = () => {
   // this.props.callFunc();
 };
 
-const NavBar = ({ user, onMobileClose, openMobile }) => {
+const NavBar = ({ user, cookies, onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
 
@@ -157,7 +159,7 @@ const NavBar = ({ user, onMobileClose, openMobile }) => {
           <GoogleLogout
             clientId="1092979243632-ufl3842hjal4adoaio73ta2noj2avnbo.apps.googleusercontent.com"
             buttonText="LOG OUT"
-            onLogoutSuccess={logOut}
+            onLogoutSuccess={() => logOut({ cookies })}
             theme="dark"
             icon={false}
           ></GoogleLogout>

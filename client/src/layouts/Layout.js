@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRoutes ,Switch,Route} from 'react-router-dom';
+import { useRoutes, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core';
 import GlobalStyles from 'src/components/GlobalStyles';
 import DashboardLayout from 'src/layouts/DashboardLayout';
@@ -15,7 +15,7 @@ const Layout = props => {
   //     let routes = setUserAsProps(props);
   //     return routes;
   //   });
-  const routes = setUserAsProps(props.user);
+  const routes = setUserAsProps(props.user, props.cookies);
   const routing = useRoutes(routes);
   return (
     <ThemeProvider theme={theme}>
