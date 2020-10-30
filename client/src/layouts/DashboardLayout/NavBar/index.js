@@ -116,6 +116,7 @@ const logOut = cookies => {
 const NavBar = ({ user, cookies, onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
+  user = JSON.parse(user);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
