@@ -167,7 +167,7 @@ const googleLogin = catchAsync(async (req, res, next) => {
                 createSendToken(visitor, 200, res);
               }
             }
-          });
+          }});
         } catch (err) {
           console.log(err);
         }
