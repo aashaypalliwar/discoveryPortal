@@ -126,7 +126,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
       tagsSelected: tagsFiltered
     };
     axios
-      .post('http://localhost:3000/v1/search/tags', data, {
+      .post('http://localhost:3000/api/v1/search/tags', data, {
         withCredentials: true
       })
       .then(response => {
