@@ -98,7 +98,7 @@ const useStyles = makeStyles(() => ({
 const logOut = () => {
   // this.setState({ isLoggedIn: false });
   axios
-    .post('/v1/auth/logout', {
+    .post('/api/v1/auth/logout', {
       withCredentials: true
     })
     .then(response => {

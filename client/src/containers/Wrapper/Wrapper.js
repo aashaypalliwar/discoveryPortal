@@ -12,7 +12,7 @@ class Wrapper extends Component {
   };
   checkIsLoggedIn = () => {
     axios
-      .get('/v1/auth/loginStatus', {
+      .get('/api/v1/auth/loginStatus', {
         withCredentials: true
       })
       .then(response => {
@@ -49,7 +49,7 @@ class Wrapper extends Component {
       // this.props.callFunc();
       axios
         .post(
-          '/v1/auth/login',
+          '/api/v1/auth/login',
           { tokenId: response.tokenId },
           {
             withCredentials: true
