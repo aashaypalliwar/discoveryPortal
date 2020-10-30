@@ -14,9 +14,11 @@ import {
   Table,
   FormControl,
   Select,
+  Button,
   Input,
   InputLabel,
   Grid,
+  Paper,
   MenuItem,
   TableBody,
   TableCell,
@@ -33,15 +35,21 @@ import getInitials from 'src/utils/getInitials';
 import { Search as SearchIcon } from 'react-feather';
 import { filter } from 'lodash';
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    listStyle: 'none',
+    padding: theme.spacing(0.5),
+    margin: 0
+  },
+  chip: {
+    margin: theme.spacing(0.5)
+  },
   avatar: {
     marginRight: theme.spacing(2)
   },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300
-  },
+
   chips: {
     display: 'flex',
     flexWrap: 'wrap'
@@ -66,39 +74,9 @@ const Results = ({ className, customers, tags, ...rest }) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [users, setUsers] = useState(customers);
-  const [selectedTags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [presentTags, setPresentTags] = useState(tags);
   const [search, setSearch] = useState('');
-  // const handleSelectAll = (event) => {
-  //   let newSelectedCustomerIds;
-
-  //   if (event.target.checked) {
-  //     newSelectedCustomerIds = customers.map((customer) => customer.id);
-  //   } else {
-  //     newSelectedCustomerIds = [];
-  //   }
-
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
-
-  // const handleSelectOne = (event, id) => {
-  //   const selectedIndex = selectedCustomerIds.indexOf(id);
-  //   let newSelectedCustomerIds = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
-  //       selectedCustomerIds.slice(0, selectedIndex),
-  //       selectedCustomerIds.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //
-  //   setSelectedCustomerIds(newSelectedCustomerIds);
-  // };
 
   const handleLimitChange = event => {
     setLimit(event.target.value);
@@ -108,22 +86,30 @@ const Results = ({ className, customers, tags, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleChange = event => {
-    setTags(event.target.value);
-    searchUserByTag();
+  const selectChip = tagSelected => {
+    setPresentTags(tags => tags.filter(tag => tag.id !== tagSelected.id));
+    selectedTags.push(tagSelected);
+  };
+  const deleteChip = tagSelected => {
+    setSelectedTags(tags => tags.filter(tag => tag.id !== tagSelected.id));
+    presentTags.push(tagSelected);
   };
   const searchUserByTag = () => {
-    const tagsSelected = selectedTags.map(tag => {
+    const tagsFiltered = selectedTags.map(tag => {
       return tag._id;
     });
-    console.log(tagsSelected);
-    const data = { ...tagsSelected };
+    console.log(tagsFiltered);
+    const data = {
+      tagsSelected: tagsFiltered
+    };
     axios
       .post('http://localhost:3000/v1/search/tags', data, {
         withCredentials: true
       })
       .then(response => {
-        console.log(response.data);
+        console.log(response.data.data.users);
+        if (response.data.data.users.length) setUsers(response.data.data.users);
+        else setUsers([]);
       })
       .catch(err => console.log(err));
   };
@@ -148,7 +134,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
         <Card>
           <CardContent>
             <Grid container spacing={3}>
-              <Grid item md={5} xs={12}>
+              {/* <Grid item md={5} xs={12}>
                 <Input
                   fullWidth
                   InputProps={{
@@ -164,42 +150,53 @@ const Results = ({ className, customers, tags, ...rest }) => {
                   placeholder="Search User by name or email"
                   variant="outlined"
                 />
-              </Grid>
-              <Grid item md={5} xs={12}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-mutiple-chip-label">Tags</InputLabel>
-                  <Select
-                    labelId="demo-mutiple-chip-label"
-                    id="demo-mutiple-chip"
-                    multiple
-                    value={selectedTags}
-                    onChange={handleChange}
-                    input={<Input id="select-multiple-chip" />}
-                    renderValue={selected => (
-                      <div className={classes.chips}>
-                        {selected.map(value => (
-                          <Chip
-                            key={value.id}
-                            label={value.name}
-                            className={classes.chip}
-                          />
-                        ))}
-                      </div>
-                    )}
-                    MenuProps={MenuProps}
+              </Grid> */}
+              <Grid item md={12} xs={12}>
+                <Paper component="ul" className={classes.root}>
+                  <p>Selected tags</p>
+                  {selectedTags.map((tag, index) => {
+                    return (
+                      <Chip
+                        label={tag.name}
+                        className={classes.chip}
+                        clickable
+                        onDelete={() => deleteChip(tag)}
+                      />
+                    );
+                  })}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={searchUserByTag}
+                    style={{ alignSelf: 'left' }}
                   >
-                    {tags.map(tag => (
-                      <MenuItem key={tag.id} value={tag}>
-                        {tag.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                    Search
+                  </Button>
+                </Paper>
+              </Grid>
+              <Grid item md={12} xs={12}>
+                <Paper component="ul" className={classes.root}>
+                  <p>Present tags</p>
+                  {presentTags.map((tag, index) => {
+                    return (
+                      <li key={tag.id}>
+                        <Chip
+                          label={tag.name}
+                          value={tag.id}
+                          className={classes.chip}
+                          clickable
+                          onClick={() => selectChip(tag)}
+                        />
+                      </li>
+                    );
+                  })}
+                </Paper>
               </Grid>
             </Grid>
           </CardContent>
         </Card>
       </Box>
+      <br></br>
       <Card className={clsx(classes.root, className)} {...rest}>
         <PerfectScrollbar>
           <Box minWidth={1050}>
@@ -222,7 +219,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, limit).map(customer => (
+                {users.slice(page * limit, (page + 1) * limit).map(customer => (
                   <TableRow
                     hover
                     key={customer.id}
