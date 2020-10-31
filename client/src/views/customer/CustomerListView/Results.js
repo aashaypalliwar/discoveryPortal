@@ -6,6 +6,7 @@ import { clone } from "ramda"
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import TagGroup from './TagGroup';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import {
   Avatar,
   Box,
@@ -145,8 +146,12 @@ const Results = ({ className, customers, tags, ...rest }) => {
       .catch(err => console.log(err));
   };
   const searchUser = async event => {
-    await setSearch(event.target.value);
-    filterResults();
+    if(event.target.value === ""){
+      resetSearch();
+    }else{
+      await setSearch(event.target.value);
+      filterResults();
+    }   
   };
 
   const filterResults = () => {
@@ -302,14 +307,38 @@ const Results = ({ className, customers, tags, ...rest }) => {
       </Box> : null
       }
       {
-        !filterVisibility ? <><br></br>
+        !filterVisibility ? <>
+       <br></br>
         <Card className={clsx(classes.root, className)} {...rest}>
+        
           <PerfectScrollbar>
             <Box minWidth={1050}>
               <Table>
                 <TableHead>
                   <TableRow>
+                    <TableCell>
+                  <Grid item md={5} xs={12}>
+                    <Input
+                      fullWidth
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SvgIcon fontSize="small" color="action">
+                              <SearchIcon />
+                            </SvgIcon>
+                          </InputAdornment>
+                        )
+                      }}
+                      onChange={searchUser}
+                      placeholder="Search student by name or email"
+                      variant="outlined"
+                    />
+                    </Grid>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
                     <TableCell>Name</TableCell>
+                    <TableCell>Verified</TableCell>
                     <TableCell>Email</TableCell>
                   </TableRow>
                 </TableHead>
@@ -330,6 +359,9 @@ const Results = ({ className, customers, tags, ...rest }) => {
                           </Typography>
                         </Box>
                       </TableCell>
+                  <TableCell>{
+                      customer.verifyStatus ? <CheckCircleIcon color='primary'/> : null                    
+                    }</TableCell>
                       <TableCell>{customer.email}</TableCell>
                     </TableRow>
                   ))}
