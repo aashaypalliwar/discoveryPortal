@@ -57,19 +57,24 @@ const useStyles = makeStyles(() => ({
     paddingTop: 8,
     paddingBottom: 8
   },
-  cell: {
-    border: 0,
-    fontSize: 18,
-    paddingTop: 8,
-    paddingBottom: 8,
-    display: 'flex'
-  },
   cellC: {
     border: 0,
     fontSize: 18,
     paddingTop: 8,
     paddingBottom: 8,
     textAlign: 'center'
+  },
+  cellBA: {
+    fontWeight: 500,
+    border: 0,
+    fontSize: 18
+  },
+  cell: {
+    border: 0,
+    fontSize: 18,
+    paddingTop: 8,
+    paddingBottom: 8,
+    display: 'flex'
   },
   icons: {
     height: 50,
@@ -231,8 +236,8 @@ const Profile = ({ profile, className, ...rest }) => {
                       <TableBody>
                         {tagMapArray.map((group, index) => {
                           return [
-                            <TableRow className={classes.cellB}>
-                              {group.name}
+                            <TableRow className={classes.cellBA}>
+                              &nbsp;&nbsp;&nbsp;&nbsp;{group.name}
                             </TableRow>,
                             <TableRow className={classes.cell}>
                               <TableCell style={{ borderBottom: 0 }}>
