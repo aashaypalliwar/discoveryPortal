@@ -227,9 +227,6 @@ const Profile = ({ profile, className, ...rest }) => {
                                   {tag.group.charAt(0)}
                                 </Avatar>
                               }
-                              onClick={() => {
-                                return null;
-                              }}
                               className={classes.chip}
                               label={tag.name}
                             />
@@ -252,9 +249,6 @@ const Profile = ({ profile, className, ...rest }) => {
                                     {tag.group.charAt(0)}
                                   </Avatar>
                                 }
-                                onClick={() => {
-                                  return null;
-                                }}
                                 className={classes.chip}
                                 label={tag.name}
                               />

@@ -58,7 +58,7 @@ class Wrapper extends Component {
           };
           console.log(typeof new Date(response.data.expireAt));
           const cookies = this.props.cookies;
-          cookies.set('userData', userData, {
+          cookies.set('userData', JSON.parse(userData), {
             path: '/',
             expires: new Date(response.data.expireAt)
           });
