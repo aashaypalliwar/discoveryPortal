@@ -98,7 +98,7 @@ exports.reportUser = catchAsync(async (req, res, next) => {
     return next(new AppError('The user to be reported is not present', 400));
   }
 
-  if (reportedUser.reporters && reportedUser.reporters.includes(req.user.id)) {
+  if (reportedUser.reporters && reportedUser.reporters.includes(req.user._id)) {
     res.status(200).json({
       status: 'success',
       message: 'This user is already reported by you',
@@ -118,7 +118,7 @@ exports.reportUser = catchAsync(async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, {
       reportCount: newReportCount,
       publishStatus: publishStatus,
-      $push: { reporters: req.user.id },
+      $push: { reporters: req.user._id },
     });
 
     res.status(200).json({
