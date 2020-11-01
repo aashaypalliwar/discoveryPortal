@@ -216,7 +216,7 @@ const Profile = ({ profile, className, ...rest }) => {
                 Contact info
               </Typography>
               <Grid container justify="center">
-                {profile.links.length !== 0 ? (
+                {profile.links != undefined && profile.links.length !== 0 ? (
                   profile.links.map((link, index) => {
                     return (
                       <Link href={link.url} target="_blank">
@@ -244,7 +244,8 @@ const Profile = ({ profile, className, ...rest }) => {
                 <TableContainer>
                   <Table className={classes.table} aria-label="simple table">
                     <TableBody>
-                      {profile.tags.length !== 0 ? (
+                      {profile.tags !== undefined &&
+                      profile.tags.length !== 0 ? (
                         tagMapArray.map((group, index) => {
                           return [
                             <TableRow className={classes.cellBA}>
