@@ -175,6 +175,13 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
     Instagram: false,
     Twitter: false
   });
+  const [isExpanded, setIsExpanded] = useState({
+    LinkedIn: false,
+    GitHub: false,
+    Facebook: false,
+    Instagram: false,
+    Twitter: false
+  });
 
   const toggleLinkEdit = name => {
     console.log(name);
@@ -222,6 +229,8 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
         ...values,
         links: newLinks
       });
+      setIsExpanded({ ...isExpanded, [name]: true });
+      setLinkEdit({ ...linkEdit, [name]: true });
       console.log(values.links);
     }
   };
@@ -344,7 +353,7 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
             ? values.links.map((link, index) => {
                 console.log(linkEdit[link.name]);
                 return (
-                  <Accordion>
+                  <Accordion defaultExpanded={isExpanded[link.name]}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
