@@ -47,12 +47,8 @@ const items = [
     href: '/admin',
     icon: UserPlusIcon,
     title: 'Admin'
-  },
-  {
-    href: '/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
   }
+
   // {
   //   href: '/login',
   //   icon: LockIcon,
