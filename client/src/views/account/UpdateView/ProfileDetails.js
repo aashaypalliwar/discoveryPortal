@@ -151,12 +151,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 const isProperLink = link => {
-  if (link.url.includes(`www.${link.name.toLowerCase()}.com`)) {
+  if (link.url.includes(`${link.name.toLowerCase()}.com`)) {
     if (
-      link.url.endsWith(`www.${link.name.toLowerCase()}.com`) ||
-      link.url.endsWith(`www.${link.name.toLowerCase()}.com/`)
-    )
+      link.url.endsWith(`${link.name.toLowerCase()}.com`) ||
+      link.url.endsWith(`${link.name.toLowerCase()}.com/`)
+    ) {
+      console.log(
+        link.url.endsWith(`${link.name.toLowerCase()}.com`),
+        link.url.endsWith(`${link.name.toLowerCase()}.com/`)
+      );
       return false;
+    }
     return true;
   }
   return false;
@@ -166,6 +171,7 @@ const verifyLinks = links => {
   let culprit = null;
   for (let link of links) {
     if (!validUrl.isHttpsUri(link.url) || !isProperLink(link)) {
+      console.log(!validUrl.isHttpsUri(link.url), !isProperLink(link));
       culprit = link;
       break;
     }
