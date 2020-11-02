@@ -166,7 +166,8 @@ class Wrapper extends Component {
                     color: 'black',
                     fontSize: 40,
                     opacity: 1,
-                    float: 'right'
+                    float: 'right',
+                    fontFamily: 'Poppins sans-serif'
                   }}
                 >
                   Discover IIT Bhubaneswar
