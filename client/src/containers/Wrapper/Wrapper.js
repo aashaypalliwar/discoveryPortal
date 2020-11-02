@@ -142,29 +142,13 @@ class Wrapper extends Component {
         ) : (
           <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image}>
-              <div className={classes.layer}>
-                <Typography
-                  style={{
-                    color: 'white',
-                    fontSize: 40,
-                    marginBottom: 230,
-                    textAlign: 'right',
-                    opacity: 1
-                  }}
-                >
-                  Discover IIT Bhubaneswar
-                  <br />
-                  <i style={{ fontSize: 20, padding: 0 }}>
-                    find right people at the right time
-                  </i>
-                </Typography>
-              </div>
+            <Grid item xs={false} sm={6} md={7} className={classes.image}>
+              <div className={classes.layer}></div>
             </Grid>
             <Grid
               item
               xs={12}
-              sm={8}
+              sm={6}
               md={5}
               component={Paper}
               elevation={6}
