@@ -184,7 +184,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
     return null;
   }
   //Verify
-  if (profile.verifyStatus) {
+  if (user.verifyStatus) {
     verify = (
       <StyledMenuItem>
         <ListItemText
@@ -204,7 +204,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
     );
   }
   //publish status
-  if (profile.publishStatus) {
+  if (user.publishStatus) {
     unpublish = (
       <StyledMenuItem>
         <ListItemText
