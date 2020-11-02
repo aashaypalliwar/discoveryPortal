@@ -7,12 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -77,22 +72,14 @@ class Wrapper extends Component {
     this.checkIsLoggedIn();
   };
   successResponseGoogle = response => {
-    console.log(response);
     const emailUsed = response.profileObj.email;
     const index = emailUsed.indexOf('@');
     const domain = emailUsed.substr(index);
-    // this.setState({
-    //   user: response.profileObj.name,
-    //   email: response.profileObj.email
-    // });
 
     if (domain !== '@iitbbs.ac.in') {
       alert('Use your IIT Bhubaneswar email id.');
       return false;
     } else {
-      // console.log(response.tokenId);
-      // this.setState({ isLoggedIn: true });
-      // this.props.callFunc();
       axios
         .post(
           '/api/v1/auth/login',
@@ -102,8 +89,6 @@ class Wrapper extends Component {
           }
         )
         .then(response => {
-          console.log('login');
-          console.log(response.data);
           this.setState({ user: response.data.user });
           this.setState({ isLoggedIn: true });
           const userData = {
@@ -112,7 +97,6 @@ class Wrapper extends Component {
             role: response.data.user.role,
             image: response.data.user.image
           };
-          console.log(typeof new Date(response.data.expireAt));
           const cookies = this.props.cookies;
           cookies.set('userData', userData, {
             path: '/',
@@ -122,19 +106,16 @@ class Wrapper extends Component {
             path: '/',
             expires: new Date(response.data.expireAt)
           });
-          // console.log(this.state.user);
         })
         .catch(err => console.log(err));
     }
   };
   failureResponseGoogle = response => {
-    console.log(response);
     alert('Use your IIT BBS email for login');
   };
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.isLoggedIn);
     return (
       <div>
         {this.state.isLoggedIn ? (

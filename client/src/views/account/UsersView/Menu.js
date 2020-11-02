@@ -1,17 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
-import { TableCell } from '@material-ui/core';
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5'
@@ -53,20 +47,6 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  //   const updatedProfile = () => {
-  //     axios
-  //       .get('/api/v1/user/other?id=' + profile._id, {
-  //         withCredentials: true
-  //       })
-  //       .then(response => {
-  //         // console.log(response.data.data.user);
-  //         setProfile(response.data.data.user);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //         this.setState({ isLoading: false });
-  //       });
-  //   };
 
   //Unpubishing a user //
   const unpublishUser = email => {
