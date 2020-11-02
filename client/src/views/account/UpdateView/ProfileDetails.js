@@ -151,15 +151,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const isProperLink = link => {
-  if (link.url.includes(`${link.name.toLowerCase()}.com`)) {
-    if (
-      link.url.endsWith(`${link.name.toLowerCase()}.com`) ||
-      link.url.endsWith(`${link.name.toLowerCase()}.com/`)
-    ) {
-      console.log(
-        link.url.endsWith(`${link.name.toLowerCase()}.com`),
-        link.url.endsWith(`${link.name.toLowerCase()}.com/`)
-      );
+  if (
+    link.url.includes(`//${link.name.toLowerCase()}.com`) ||
+    link.url.includes(`www.${link.name.toLowerCase()}.com`)
+  ) {
+    if (link.url.endsWith('.com') || link.url.endsWith('.com/')) {
       return false;
     }
     return true;
