@@ -27,7 +27,7 @@ const useStyles = theme => ({
   image: {
     backgroundImage: `url(${Background})`,
     backgroundRepeat: 'no-repeat',
-    opacity: 0.8,
+    opacity: 0.95,
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   },
@@ -87,7 +87,7 @@ class Wrapper extends Component {
     // });
 
     if (domain !== '@iitbbs.ac.in') {
-      alert('Use your iit bbs email id');
+      alert('Use your IIT Bhubaneswar email id.');
       return false;
     } else {
       // console.log(response.tokenId);
