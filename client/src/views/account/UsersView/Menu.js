@@ -263,11 +263,11 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
         </StyledMenuItem>
 
         {currentUser.role === 'admin' || currentUser.role === 'superAdmin' ? (
-          <>
+          <span>
             {clearReport}
             {verify}
             {unpublish}
-          </>
+          </span>
         ) : null}
         {currentUser.role === 'superAdmin' ? <> {publish} </> : null}
       </StyledMenu>
