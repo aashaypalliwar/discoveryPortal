@@ -163,8 +163,9 @@ const Results = ({ className, ...rest }) => {
                         >
                           Unpublished users
                         </Button>
-                      </TableCell>
-                      <TableCell className={classes.cell}>
+                      {/* </TableCell>
+                      <TableCell className={classes.cell}> */}
+                      &nbsp;&nbsp;
                         <Button
                           variant="contained"
                           color="primary"
