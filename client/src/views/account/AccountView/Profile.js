@@ -144,7 +144,7 @@ const Profile = ({ profile, className, ...rest }) => {
     verifyIcon = (
       <Tooltip title="Verified">
         <IconButton aria-label="verified">
-          <CheckCircleIcon color='primary'/>
+          <CheckCircleIcon color="primary" />
         </IconButton>
       </Tooltip>
     );
@@ -212,7 +212,7 @@ const Profile = ({ profile, className, ...rest }) => {
                         component="th"
                         scope="row"
                         className={classes.cellB}
-                        colspan={2}
+                        colSpan={2}
                         align="center"
                       >
                         {profile.publishStatus ? (

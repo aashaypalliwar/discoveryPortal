@@ -124,6 +124,7 @@ const Profile = ({
   ...rest
 }) => {
   const classes = useStyles();
+  if (typeof currentUser == 'string') currentUser = JSON.parse(currentUser);
 
   const rows = [
     createData('Branch', profile.branch),
@@ -155,20 +156,16 @@ const Profile = ({
   }
 
   let getPublishStatus = () => {
-    if(currentUser.role == 'admin' || currentUser.role == 'superAdmin'){
-      if(profile.publishStatus){
-        return (
-        <>This profile is published</>
-      )}
-      else{return (
-        <>This profile is unpublished</>
-      )
+    if (currentUser.role == 'admin' || currentUser.role == 'superAdmin') {
+      if (profile.publishStatus) {
+        return <>This profile is published</>;
+      } else {
+        return <>This profile is unpublished</>;
       }
-    }
-    else{
+    } else {
       return null;
     }
-  }
+  };
 
   return (
     <div>
@@ -226,19 +223,19 @@ const Profile = ({
                         component="th"
                         scope="row"
                         className={classes.cellB}
-                        colspan={2}
+                        colSpan={2}
                         align="center"
                       >
-                        {profile.publishStatus && (currentUser.role == 'admin' || currentUser.role == 'superAdmin')  ? (
+                        {profile.publishStatus &&
+                        (currentUser.role == 'admin' ||
+                          currentUser.role == 'superAdmin') ? (
                           <>This profile is published</>
                         ) : null}
-                        {!profile.publishStatus && (currentUser.role == 'admin' || currentUser.role == 'superAdmin')  ? (
+                        {!profile.publishStatus &&
+                        (currentUser.role == 'admin' ||
+                          currentUser.role == 'superAdmin') ? (
                           <>This profile is unpublished</>
                         ) : null}
-                        
-
-
-                       
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -301,7 +298,7 @@ const Profile = ({
                                 {group.tags.map((tag, index) => {
                                   return (
                                     <Chip
-                                      size='small'
+                                      size="small"
                                       key={tag.group}
                                       className={classes.chip}
                                       variant="outlined"
