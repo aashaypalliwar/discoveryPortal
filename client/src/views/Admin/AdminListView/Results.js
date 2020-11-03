@@ -132,11 +132,11 @@ const Results = ({ className, ...rest }) => {
         </Card>
       </Box>
       <br></br>
-      {!currentPage == ' ' ? (
+      {!currentPage === ' ' ? (
         <Card className={clsx(classes.root, className)} {...rest}>
           <PerfectScrollbar>
             <Box minWidth={1050}>
-              {currentPage == 'unpublished' ? (
+              {currentPage === 'unpublished' ? (
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -228,7 +228,7 @@ const Results = ({ className, ...rest }) => {
           <TablePagination
             component="div"
             count={
-              currentPage == 'unpublished'
+              currentPage === 'unpublished'
                 ? unpublishedUsers.length
                 : reportedUsers.length
             }

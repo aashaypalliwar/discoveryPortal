@@ -127,7 +127,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
           withCredentials: true
         })
         .then(response => {
-          if (response.data.message == 'This user is already reported by you')
+          if (response.data.message === 'This user is already reported by you')
             alert('This user is already reported by you');
           else {
             alert('Sucessfully reported');
@@ -157,10 +157,10 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
   let unpublish;
   let publish;
   let clearReport;
-  if (typeof currentUser == 'string') {
+  if (typeof currentUser === 'string') {
     currentUser = JSON.parse(currentUser);
   }
-  if (currentUser.role == 'visitor' || currentUser.email === profile.email) {
+  if (currentUser.role === 'visitor' || currentUser.email === profile.email) {
     return null;
   }
   //Verify
