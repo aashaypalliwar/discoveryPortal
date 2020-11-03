@@ -604,6 +604,7 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
                   <TableCell style={{ border: 0 }} align="left">
                     {values.tags && values.tags.length !== 0 ? (
                       values.tags.map((tag, index) => {
+                        if (singleTags.includes(tag.group)) return null;
                         return (
                           <Chip
                             size="small"
