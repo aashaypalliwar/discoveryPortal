@@ -223,34 +223,16 @@ const verifyLinks = links => {
   return culprit;
 };
 
-const updateProfile = values => {
-  const data = { ...values };
-  let culprit = verifyLinks(data.links);
-  if (culprit === null) {
-    axios
-      .patch('/api/v1/user/profile', data, {
-        withCredentials: true
-      })
-      .then(response => {
-        window.location.href = '/profile';
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  } else {
-    alert(`Invalid ${culprit.name} link`);
-  }
-};
-
 const ProfileDetails = ({ profile, className, ...rest }) => {
   const classes = useStyles();
   const [restTags, setRestTags] = useState(null);
+  const [tagGroups, setTagGroups] = useState([]);
 
   const [values, setValues] = useState({
     bio: profile.bio,
     admissionYear: profile.admissionYear || 2016,
     branch: profile.branch,
-    program: profile.program || 'Not Specified',
+    program: profile.program,
     graduationYear: profile.graduationYear || 2020,
     links: profile.links || null,
     tags: profile.tags || null
@@ -337,6 +319,14 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
           return !values.tags.map(el => el._id).includes(tag._id);
         });
         setRestTags(rest);
+        let tagMap = {};
+        for (let tag of rest) {
+          tagMap[tag.group] = [];
+        }
+        for (let tag of rest) {
+          tagMap[tag.group].push(tag);
+        }
+        setTagGroups(tagMap);
       })
       .catch(err => {
         console.log(err);
@@ -415,6 +405,70 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
     let rest = restTags;
     rest.push(wanted);
     setRestTags(rest);
+  };
+
+  const createTags = data => {
+    let status = [];
+    let before = [];
+    let after = [];
+    for (let el of singleTags) status[el] = false;
+    if (profile.branch !== data.branch) {
+      before['Branch'] = profile.branch;
+      after['Branch'] = data.branch;
+      status['Branch'] = true;
+    }
+    if (profile.admissionYear !== data.admissionYear) {
+      before['Admission Year'] = profile.admissionYear;
+      after['Admission Year'] = data.admissionYear;
+      status['Admission Year'] = true;
+    }
+    if (profile.program !== data.program) {
+      before['Program'] = profile.program;
+      after['Program'] = data.program;
+      status['Program'] = true;
+    }
+    singleTags.forEach(grName => {
+      if (status[grName]) {
+        let rq = null;
+        if (before[grName] !== 'Not Selected') {
+          data.tags = data.tags.filter(tag => {
+            if (tag.name === after[grName]) rq = tag;
+            if (tag.group === grName) return false;
+            return true;
+          });
+        }
+        if (after[grName] !== 'Not Selected') {
+          if (!rq) {
+            rq = tagGroups[grName].filter(tag => {
+              if (tag.name === after[grName]) return true;
+              return false;
+            });
+          }
+          if (rq.length !== 0) data.tags.push(rq[0]);
+        }
+      }
+    });
+    return data;
+  };
+
+  const updateProfile = values => {
+    let data = { ...values };
+    let culprit = verifyLinks(data.links);
+    if (culprit === null) {
+      data = createTags(data);
+      axios
+        .patch('/api/v1/user/profile', data, {
+          withCredentials: true
+        })
+        .then(response => {
+          window.location.href = '/profile';
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      alert(`Invalid ${culprit.name} link`);
+    }
   };
 
   useEffect(() => {
