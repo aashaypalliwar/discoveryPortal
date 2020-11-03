@@ -285,6 +285,7 @@ const Profile = ({ profile, className, ...rest }) => {
                                   {group.tags.map((tag, index) => {
                                     return (
                                       <Chip
+                                        size='small'
                                         key={tag.group}
                                         className={classes.chip}
                                         variant="outlined"
