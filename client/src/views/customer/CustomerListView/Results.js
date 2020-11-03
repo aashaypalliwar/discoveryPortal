@@ -25,7 +25,8 @@ import {
   Typography,
   makeStyles,
   InputAdornment,
-  SvgIcon
+  SvgIcon,
+  Container
 } from '@material-ui/core';
 import getInitials from 'src/utils/getInitials';
 import { Search as SearchIcon } from 'react-feather';
@@ -172,7 +173,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
   };
 
   const getOtherProfile = id => {
-    let url = '/user?id=' + id;
+    let url = '/user/' + id;
     navigate(url);
   };
 
@@ -337,11 +338,13 @@ const Results = ({ className, customers, tags, ...rest }) => {
                               </Typography>
                             </Box>
                           </TableCell>
-                          <TableCell>
+
+                          <TableCell style={{ verticalAlign: 'middle' }}>
                             {customer.verifyStatus ? (
                               <CheckCircleIcon color="primary" />
                             ) : null}
                           </TableCell>
+
                           <TableCell>{customer.email}</TableCell>
                         </TableRow>
                       ))}
