@@ -511,34 +511,36 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
                             onChange={handleChange}
                           />
                         ) : (
-                          <Table className={classes.link}>
-                            <TableBody>
-                              <TableRow>
-                                <TableCell style={{ border: 0 }}>
-                                  <Link href={link.url} target="_blank">
-                                    {link.url}
-                                  </Link>
-                                </TableCell>
-                                <TableCell
-                                  style={{ display: 'flex', border: 0 }}
-                                  align="right"
-                                >
-                                  <ConfirmDialog
-                                    status={el => {
-                                      handleConfirm(el, link.name);
-                                    }}
-                                  />
-                                  <IconButton
-                                    onClick={() => {
-                                      toggleLinkEdit(link.name);
-                                    }}
+                          <TableContainer>
+                            <Table className={classes.link}>
+                              <TableBody>
+                                <TableRow>
+                                  <TableCell style={{ border: 0 }}>
+                                    <Link href={link.url} target="_blank">
+                                      {link.url}
+                                    </Link>
+                                  </TableCell>
+                                  <TableCell
+                                    style={{ display: 'flex', border: 0 }}
+                                    align="right"
                                   >
-                                    <CreateTwoToneIcon />
-                                  </IconButton>
-                                </TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </Table>
+                                    <ConfirmDialog
+                                      status={el => {
+                                        handleConfirm(el, link.name);
+                                      }}
+                                    />
+                                    <IconButton
+                                      onClick={() => {
+                                        toggleLinkEdit(link.name);
+                                      }}
+                                    >
+                                      <CreateTwoToneIcon />
+                                    </IconButton>
+                                  </TableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
                         )}
                       </AccordionDetails>
                     </Accordion>
