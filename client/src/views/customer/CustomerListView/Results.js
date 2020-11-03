@@ -354,7 +354,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
             </PerfectScrollbar>
             <TablePagination
               component="div"
-              count={customers.length}
+              count={users.length}
               onChangePage={handlePageChange}
               onChangeRowsPerPage={handleLimitChange}
               page={page}
