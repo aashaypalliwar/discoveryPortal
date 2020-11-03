@@ -111,6 +111,8 @@ const getLogo = name => {
       return 'https://img.icons8.com/fluent/48/000000/facebook-new.png';
     case 'Twitter':
       return 'https://img.icons8.com/fluent/48/000000/twitter.png';
+    default:
+      return ' ';
   }
 };
 
@@ -265,7 +267,7 @@ const Profile = ({
                 <TableContainer>
                   <Table className={classes.table} aria-label="simple table">
                     <TableBody>
-                      {profile.tags != undefined &&
+                      {profile.tags !== undefined &&
                       profile.tags.length !== 0 ? (
                         tagMapArray
                           .sort((a, b) => {

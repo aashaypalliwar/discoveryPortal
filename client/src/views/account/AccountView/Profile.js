@@ -240,7 +240,7 @@ const Profile = ({ profile, className, ...rest }) => {
                 Contact info
               </Typography>
               <Grid container justify="center">
-                {profile.links != undefined && profile.links.length !== 0 ? (
+                {profile.links !== undefined && profile.links.length !== 0 ? (
                   profile.links.map((link, index) => {
                     return (
                       <Link href={link.url} target="_blank">
