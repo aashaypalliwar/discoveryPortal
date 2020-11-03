@@ -136,6 +136,32 @@ const branches = [
     label: 'SHSS&M'
   }
 ];
+const programs = [
+  {
+    value: 'Not Specified',
+    label: 'Not Specified'
+  },
+  {
+    value: 'B.Tech',
+    label: 'B.Tech'
+  },
+  {
+    value: 'Dual Degree',
+    label: 'Dual Degree'
+  },
+  {
+    value: 'M.Tech',
+    label: 'M.Tech'
+  },
+  {
+    value: 'MSc',
+    label: 'MSc'
+  },
+  {
+    value: 'Ph.D',
+    label: 'Ph.D'
+  }
+];
 
 const getLogo = name => {
   switch (name) {
@@ -224,11 +250,11 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
     bio: profile.bio,
     admissionYear: profile.admissionYear || 2016,
     branch: profile.branch,
+    program: profile.program || 'Not Specified',
     graduationYear: profile.graduationYear || 2020,
     links: profile.links || null,
     tags: profile.tags || null
   });
-
   const [linkEdit, setLinkEdit] = useState({
     LinkedIn: false,
     GitHub: false,
@@ -249,6 +275,7 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
   const [filterVisibility, setFilterVisibility] = useState(false);
   const [sortedTags, setSortedTags] = useState([]);
 
+  const singleTags = ['Program', 'Admission Year', 'Branch'];
   const displayFilterPane = () => {
     setSelectedTags([]);
     let tagMap = {};
@@ -483,6 +510,25 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
                   ))}
                 </TextField>
               </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Select program"
+                  name="program"
+                  onChange={handleChange}
+                  required
+                  select
+                  SelectProps={{ native: true }}
+                  value={values.program}
+                  variant="outlined"
+                >
+                  {programs.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </TextField>
+              </Grid>
             </Grid>
             <br />
             {values.links
@@ -626,6 +672,7 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
               <Table className={classes.table} aria-label="simple table">
                 <TableBody>
                   {sortedTags.map((group, index) => {
+                    if (singleTags.includes(group.name)) return null;
                     return (
                       <TagGroup
                         key={index}
