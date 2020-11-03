@@ -39,7 +39,7 @@ const StyledMenuItem = withStyles(theme => ({
 
 const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [profile, setProfile] = React.useState(user);
+  // const [profile, setProfile] = React.useState(user);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -120,7 +120,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
       .catch(err => console.log(err));
   };
   const reportUser = id => {
-    if (!profile.reporters.includes(currentUser._id)) {
+    if (!user.reporters.includes(currentUser._id)) {
       let data = [];
       axios
         .patch('/api/v1/user/report/' + id, data, {
@@ -160,7 +160,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
   if (typeof currentUser === 'string') {
     currentUser = JSON.parse(currentUser);
   }
-  if (currentUser.role === 'visitor' || currentUser.email === profile.email) {
+  if (currentUser.role === 'visitor' || currentUser.email === user.email) {
     return null;
   }
   //Verify
@@ -169,7 +169,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
       <StyledMenuItem>
         <ListItemText
           primary="Unverify user"
-          onClick={() => unverifyUser(profile.email)}
+          onClick={() => unverifyUser(user.email)}
         />
       </StyledMenuItem>
     );
@@ -178,7 +178,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
       <StyledMenuItem>
         <ListItemText
           primary="Verify user"
-          onClick={() => verifyUser(profile.email)}
+          onClick={() => verifyUser(user.email)}
         />
       </StyledMenuItem>
     );
@@ -189,7 +189,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
       <StyledMenuItem>
         <ListItemText
           primary="Unpublish user"
-          onClick={() => unpublishUser(profile.email)}
+          onClick={() => unpublishUser(user.email)}
         />
       </StyledMenuItem>
     );
@@ -198,17 +198,17 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
       <StyledMenuItem>
         <ListItemText
           primary="Publish user"
-          onClick={() => publishUser(profile.email)}
+          onClick={() => publishUser(user.email)}
         />
       </StyledMenuItem>
     );
   }
-  if (profile.reportCount > 0) {
+  if (user.reportCount > 0) {
     clearReport = (
       <StyledMenuItem>
         <ListItemText
           primary="Clear Report"
-          onClick={() => clearReports(profile._id)}
+          onClick={() => clearReports(user._id)}
         />
       </StyledMenuItem>
     );
@@ -238,7 +238,7 @@ const CustomizedMenu = ({ user, currentUser, updateProfile }) => {
         <StyledMenuItem>
           <ListItemText
             primary="Report User"
-            onClick={() => reportUser(profile._id)}
+            onClick={() => reportUser(user._id)}
           />
         </StyledMenuItem>
 
