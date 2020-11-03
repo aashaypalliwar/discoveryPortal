@@ -430,14 +430,14 @@ const ProfileDetails = ({ profile, className, ...rest }) => {
     singleTags.forEach(grName => {
       if (status[grName]) {
         let rq = null;
-        if (before[grName] !== 'Not Selected') {
+        if (before[grName] !== 'Not Specified') {
           data.tags = data.tags.filter(tag => {
             if (tag.name === after[grName]) rq = tag;
             if (tag.group === grName) return false;
             return true;
           });
         }
-        if (after[grName] !== 'Not Selected') {
+        if (after[grName] !== 'Not Specified') {
           if (!rq) {
             rq = tagGroups[grName].filter(tag => {
               if (tag.name === after[grName]) return true;
