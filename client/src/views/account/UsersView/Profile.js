@@ -151,20 +151,18 @@ const Profile = ({
     tagMapArray.push({ name: group, tags: tagMap[group] });
   }
   let verifyIcon;
-  let nullIcon;
   if (profile.verifyStatus) {
-    verifyIcon = (
+    verifyIcon = [
+      <IconButton aria-label="verified" disabled>
+        <CheckCircleIcon color="primary" style={{ visibility: 'hidden' }} />
+      </IconButton>,
+      <b style={{ fontSize: 20 }}>Verified</b>,
       <Tooltip title="Verified">
         <IconButton aria-label="verified">
           <CheckCircleIcon color="primary" />
         </IconButton>
       </Tooltip>
-    );
-    nullIcon = (
-      <IconButton aria-label="verified" disabled>
-        <CheckCircleIcon color="primary" style={{ visibility: 'hidden' }} />
-      </IconButton>
-    );
+    ];
   }
 
   return (
@@ -186,8 +184,8 @@ const Profile = ({
               >
                 <Avatar className={classes.avatar} src={profile.image} />
                 <Typography color="textPrimary" gutterBottom variant="h3">
-                  {nullIcon}
-                  {profile.name} {verifyIcon}
+                  {profile.name} <br />
+                  {verifyIcon}
                 </Typography>
                 <Typography
                   className={classes.text}
@@ -201,7 +199,13 @@ const Profile = ({
                   color="textSecondary"
                   variant="body1"
                 >
-                  <b>Bio :</b> {profile.bio}
+                  {profile.bio
+                    ? [
+                        <>
+                          <b>Bio :</b> {profile.bio}
+                        </>
+                      ]
+                    : null}
                 </Typography>
               </Box>
             </CardContent>

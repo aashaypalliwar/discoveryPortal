@@ -139,20 +139,18 @@ const Profile = ({ profile, className, ...rest }) => {
     }
   }
   let verifyIcon;
-  let nullIcon;
   if (profile.verifyStatus) {
-    verifyIcon = (
+    verifyIcon = [
+      <IconButton aria-label="verified" disabled>
+        <CheckCircleIcon color="primary" style={{ visibility: 'hidden' }} />
+      </IconButton>,
+      <b style={{ fontSize: 20 }}>Verified</b>,
       <Tooltip title="Verified">
         <IconButton aria-label="verified">
           <CheckCircleIcon color="primary" />
         </IconButton>
       </Tooltip>
-    );
-    nullIcon = (
-      <IconButton aria-label="verified" disabled>
-        <CheckCircleIcon color="primary" style={{ visibility: 'hidden' }} />
-      </IconButton>
-    );
+    ];
   }
   return (
     <div>
@@ -175,8 +173,8 @@ const Profile = ({ profile, className, ...rest }) => {
               <Box alignItems="center" display="flex" flexDirection="column">
                 <Avatar className={classes.avatar} src={profile.image} />
                 <Typography color="textPrimary" gutterBottom variant="h3">
-                  {nullIcon}
-                  {profile.name} {verifyIcon}
+                  {profile.name} <br />
+                  {verifyIcon}
                 </Typography>
                 <Typography
                   className={classes.text}
@@ -191,7 +189,13 @@ const Profile = ({ profile, className, ...rest }) => {
                   color="textSecondary"
                   variant="body1"
                 >
-                  <b>Bio :</b> {profile.bio}
+                  {profile.bio
+                    ? [
+                        <>
+                          <b>Bio :</b> {profile.bio}
+                        </>
+                      ]
+                    : null}
                 </Typography>
               </Box>
             </CardContent>
