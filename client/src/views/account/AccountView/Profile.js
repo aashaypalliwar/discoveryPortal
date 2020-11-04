@@ -98,6 +98,9 @@ const useStyles = makeStyles(() => ({
     cursor: 'default'
   }
 }));
+// const modify = name =>{
+//    let nameLower =
+// }
 
 const getLogo = name => {
   switch (name) {
@@ -168,8 +171,13 @@ const Profile = ({ profile, className, ...rest }) => {
             <CardContent>
               <Box alignItems="center" display="flex" flexDirection="column">
                 <Avatar className={classes.avatar} src={profile.image} />
-                <Typography color="textPrimary" gutterBottom variant="h3">
-                  {profile.name} <br />
+                <Typography
+                  color="textPrimary"
+                  gutterBottom
+                  variant="h3"
+                  style={{ textTransform: 'capitalize' }}
+                >
+                  {profile.name.toLowerCase()} <br />
                   {verifyIcon}
                 </Typography>
                 <Typography
