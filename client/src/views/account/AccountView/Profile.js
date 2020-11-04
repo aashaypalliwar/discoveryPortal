@@ -199,7 +199,11 @@ const Profile = ({ profile, className, ...rest }) => {
                           <b>Bio :</b> {profile.bio}
                         </>
                       ]
-                    : null}
+                    : [
+                        <>
+                          <b>Bio :</b> Update Bio
+                        </>
+                      ]}
                 </Typography>
               </Box>
             </CardContent>
