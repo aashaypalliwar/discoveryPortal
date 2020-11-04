@@ -183,8 +183,13 @@ const Profile = ({
                 style={style}
               >
                 <Avatar className={classes.avatar} src={profile.image} />
-                <Typography color="textPrimary" gutterBottom variant="h3">
-                  {profile.name} <br />
+                <Typography
+                  color="textPrimary"
+                  gutterBottom
+                  variant="h3"
+                  style={{ textTransform: 'capitalize' }}
+                >
+                  {profile.name.toLowerCase()} <br />
                   {verifyIcon}
                 </Typography>
                 <Typography
