@@ -8,38 +8,39 @@ exports.searchUser = catchAsync(async (req, res, next) => {
     searchQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'),
     'gi'
   );
-     
-  const users = await User.find({ name: searchQuery})
-  .select('_id email name image verifyStatus')
-  .sort({ verifyStatus: -1 })
-  .lean();
+
+  const users = await User.find({ name: searchQuery })
+    .select('_id email name image verifyStatus')
+    .sort({ verifyStatus: -1 })
+    .lean();
 
   res.status(200).json({
     status: 'success',
     data: {
-      users
+      users,
     },
-  })
+  });
 });
 
 exports.searchByTag = catchAsync(async (req, res, next) => {
-
-  try{
+  try {
     const queryTags = req.body.tagsSelected;
 
-    const users = await User.find({ publishStatus: true, tags: { $all: queryTags } })
+    const users = await User.find({
+      publishStatus: true,
+      tags: { $all: queryTags },
+    })
       .select('name email image verifyStatus')
-      .sort({ verifyStatus: -1 })
+      .sort({ verifyStatus: -1, name: 1 })
       .lean();
-  
+
     res.status(200).json({
       status: 'success',
       data: {
-        users},
+        users,
+      },
     });
-  }
-  catch (err){
+  } catch (err) {
     throw new AppError(err.message, 500);
   }
-  
 });
