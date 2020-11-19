@@ -43,11 +43,11 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
     );
   }
 
-  if (!req.user.autoVerify) {
-    req.body.verifyStatus = false;
-  } else {
-    req.body.verifyStatus = true;
-  }
+  // if (!req.user.autoVerify) {
+  //   req.body.verifyStatus = false;
+  // } else {
+  //   req.body.verifyStatus = true;
+  // }
 
   const updateUser = await User.findByIdAndUpdate(req.user._id, req.body, {
     new: true,
