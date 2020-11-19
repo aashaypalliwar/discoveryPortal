@@ -153,10 +153,6 @@ const Profile = ({
   let verifyIcon;
   if (profile.verifyStatus) {
     verifyIcon = [
-      <IconButton aria-label="verified" disabled>
-        <CheckCircleIcon color="primary" style={{ visibility: 'hidden' }} />
-      </IconButton>,
-      <b style={{ fontSize: 20 }}>Verified</b>,
       <Tooltip title="Verified">
         <IconButton aria-label="verified">
           <CheckCircleIcon color="primary" />
