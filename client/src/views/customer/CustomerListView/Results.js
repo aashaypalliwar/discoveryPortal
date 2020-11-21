@@ -96,6 +96,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
   };
 
   const searchUserByTag = () => {
+    console.log(selectedTags);
     const data = {
       tagsSelected: selectedTags
     };
@@ -104,6 +105,23 @@ const Results = ({ className, customers, tags, ...rest }) => {
         withCredentials: true
       })
       .then(response => {
+        console.log(response.data.data.users);
+        if (response.data.data.users.length) setUsers(response.data.data.users);
+        else setUsers([]);
+        setFilterVisibility(false);
+      })
+      .catch(err => console.log(err));
+  };
+  const researchUserByTag = tagsPresent => {
+    const data = {
+      tagsSelected: tagsPresent
+    };
+    axios
+      .post('/api/v1/search/tags', data, {
+        withCredentials: true
+      })
+      .then(response => {
+        console.log(response.data.data.users);
         if (response.data.data.users.length) setUsers(response.data.data.users);
         else setUsers([]);
         setFilterVisibility(false);
@@ -178,12 +196,16 @@ const Results = ({ className, customers, tags, ...rest }) => {
     navigate(url, { state: { tagsSelected: selectedTags } });
   };
   const { state } = useLocation();
-  if (state) {
-    const { tagsSelected } = state;
-    if (tagsSelected.length) {
-      console.log(tagsSelected);
+  useEffect(() => {
+    if (state) {
+      const { tagsSelected } = state;
+      if (tagsSelected.length) {
+        setSelectedTags(tagsSelected);
+        researchUserByTag(tagsSelected);
+        console.log(tagsSelected);
+      }
     }
-  }
+  }, []);
 
   return (
     <div>
