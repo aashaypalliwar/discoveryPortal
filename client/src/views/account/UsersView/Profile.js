@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Avatar,
   Box,
@@ -13,7 +14,8 @@ import {
   Typography,
   makeStyles,
   Tooltip,
-  IconButton
+  IconButton,
+  Button
 } from '@material-ui/core';
 
 import Table from '@material-ui/core/Table';
@@ -24,6 +26,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CustomizedMenu from './Menu';
+import { navigate } from 'hookrouter';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -123,6 +126,7 @@ const Profile = ({
   className,
   ...rest
 }) => {
+  // let location = useNavigate();
   const classes = useStyles();
   if (typeof currentUser === 'string') currentUser = JSON.parse(currentUser);
 
@@ -160,11 +164,19 @@ const Profile = ({
       </Tooltip>
     ];
   }
-
+  const { state } = useLocation();
+  let navigate = useNavigate();
+  const navigateBack = () => {
+    const { tagsSelected } = state;
+    navigate('/discover', { state: { tagsSelected: tagsSelected } });
+  };
   return (
     <div>
       <Grid container className={classes.align} spacing={1} justify="center">
         <Grid item lg={5} md={10} xs={12}>
+          <Button variant="primary" onClick={navigateBack}>
+            Go Back
+          </Button>
           <Card className={clsx(classes.root, className)} {...rest}>
             <CustomizedMenu
               user={profile}

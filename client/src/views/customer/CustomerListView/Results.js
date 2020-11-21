@@ -6,7 +6,7 @@ import { clone } from 'ramda';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import TagGroup from './TagGroup';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Avatar,
   Box,
@@ -81,6 +81,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
   const [sortedTags, setSortedTags] = useState([]);
   const [processedTags, setProcessTags] = useState(false);
   let navigate = useNavigate();
+
   const handleLimitChange = event => {
     setLimit(event.target.value);
   };
@@ -174,8 +175,15 @@ const Results = ({ className, customers, tags, ...rest }) => {
 
   const getOtherProfile = id => {
     let url = '/user/' + id;
-    navigate(url);
+    navigate(url, { state: { tagsSelected: selectedTags } });
   };
+  const { state } = useLocation();
+  if (state) {
+    const { tagsSelected } = state;
+    if (tagsSelected.length) {
+      console.log(tagsSelected);
+    }
+  }
 
   return (
     <div>
