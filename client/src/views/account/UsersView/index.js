@@ -34,7 +34,6 @@ class Account extends Component {
       });
   };
   componentDidMount = () => {
-    console.log(this.props.history);
     this.getProfile();
   };
 

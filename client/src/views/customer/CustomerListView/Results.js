@@ -123,7 +123,6 @@ const Results = ({ className, customers, tags, ...rest }) => {
         withCredentials: true
       })
       .then(response => {
-        console.log(response.data.data.users);
         if (response.data.data.users.length) setUsers(response.data.data.users);
         else setUsers([]);
         setFilterVisibility(false);
@@ -206,7 +205,6 @@ const Results = ({ className, customers, tags, ...rest }) => {
         setIsLoading(true);
         setSelectedTags(tagsSelected);
         researchUserByTag(tagsSelected);
-        console.log(tagsSelected);
       }
     }
   }, []);

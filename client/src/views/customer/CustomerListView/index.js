@@ -50,7 +50,6 @@ class CustomerListView extends Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props.location);
     this.getAllUsers();
     this.getAllTags();
   };

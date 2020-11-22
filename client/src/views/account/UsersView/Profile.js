@@ -171,10 +171,12 @@ const Profile = ({
     navigate('/discover', { state: { tagsSelected: tagsSelected } });
   };
   return (
-    <div style={{ textAlign: 'left' }}>
-      <Button variant="outlined" onClick={navigateBack} style={{ left: 0 }}>
-        &#10094;&nbsp;Back
-      </Button>
+    <div>
+      <div style={{ textAlign: 'left' }}>
+        <Button variant="outlined" onClick={navigateBack} style={{ left: 0 }}>
+          &#10094;&nbsp;Back
+        </Button>
+      </div>
       <Grid container className={classes.align} spacing={1} justify="center">
         <Grid item lg={5} md={10} xs={12}>
           <Card className={clsx(classes.root, className)} {...rest}>
