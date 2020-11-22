@@ -171,12 +171,12 @@ const Profile = ({
     navigate('/discover', { state: { tagsSelected: tagsSelected } });
   };
   return (
-    <div>
+    <div style={{ textAlign: 'left' }}>
+      <Button variant="outlined" onClick={navigateBack} style={{ left: 0 }}>
+        &#10094;&nbsp;Back
+      </Button>
       <Grid container className={classes.align} spacing={1} justify="center">
         <Grid item lg={5} md={10} xs={12}>
-          <Button variant="primary" onClick={navigateBack}>
-            Go Back
-          </Button>
           <Card className={clsx(classes.root, className)} {...rest}>
             <CustomizedMenu
               user={profile}
