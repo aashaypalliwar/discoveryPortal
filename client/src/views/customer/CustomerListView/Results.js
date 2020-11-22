@@ -80,6 +80,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
   const [filterVisibility, setFilterVisibility] = useState(false);
   const [sortedTags, setSortedTags] = useState([]);
   const [processedTags, setProcessTags] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
   const handleLimitChange = event => {
@@ -109,6 +110,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
         if (response.data.data.users.length) setUsers(response.data.data.users);
         else setUsers([]);
         setFilterVisibility(false);
+        setIsLoading(false);
       })
       .catch(err => console.log(err));
   };
@@ -125,6 +127,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
         if (response.data.data.users.length) setUsers(response.data.data.users);
         else setUsers([]);
         setFilterVisibility(false);
+        setIsLoading(false);
       })
       .catch(err => console.log(err));
   };
@@ -200,6 +203,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
     if (state) {
       const { tagsSelected } = state;
       if (tagsSelected.length) {
+        setIsLoading(true);
         setSelectedTags(tagsSelected);
         researchUserByTag(tagsSelected);
         console.log(tagsSelected);
@@ -310,92 +314,94 @@ const Results = ({ className, customers, tags, ...rest }) => {
       {!filterVisibility ? (
         <>
           <br></br>
-          <Card className={clsx(classes.root, className)} {...rest}>
-            <PerfectScrollbar>
-              <Box minWidth={1050}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <Grid item md={7} xs={12}>
-                          <Input
-                            fullWidth
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  <SvgIcon fontSize="small" color="action">
-                                    <SearchIcon />
-                                  </SvgIcon>
-                                </InputAdornment>
-                              )
-                            }}
-                            onChange={searchUser}
-                            placeholder="Search student by name or email"
-                            variant="outlined"
-                          />
-                        </Grid>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Verified</TableCell>
-                      <TableCell>Email</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {users
-                      .slice(page * limit, (page + 1) * limit)
-                      .map(customer => (
-                        <TableRow
-                          hover
-                          key={customer._id}
-                          selected={
-                            selectedCustomerIds.indexOf(customer.id) !== -1
-                          }
-                          onClick={() => getOtherProfile(customer._id)}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <TableCell>
-                            <Box
-                              alignItems="center"
-                              display="flex"
-                              style={{ textTransform: 'capitalize' }}
-                            >
-                              <Avatar
-                                className={classes.avatar}
-                                src={customer.image}
+          {!isLoading ? (
+            <Card className={clsx(classes.root, className)} {...rest}>
+              <PerfectScrollbar>
+                <Box minWidth={1050}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <Grid item md={7} xs={12}>
+                            <Input
+                              fullWidth
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    <SvgIcon fontSize="small" color="action">
+                                      <SearchIcon />
+                                    </SvgIcon>
+                                  </InputAdornment>
+                                )
+                              }}
+                              onChange={searchUser}
+                              placeholder="Search student by name or email"
+                              variant="outlined"
+                            />
+                          </Grid>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Verified</TableCell>
+                        <TableCell>Email</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {users
+                        .slice(page * limit, (page + 1) * limit)
+                        .map(customer => (
+                          <TableRow
+                            hover
+                            key={customer._id}
+                            selected={
+                              selectedCustomerIds.indexOf(customer.id) !== -1
+                            }
+                            onClick={() => getOtherProfile(customer._id)}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <TableCell>
+                              <Box
+                                alignItems="center"
+                                display="flex"
+                                style={{ textTransform: 'capitalize' }}
                               >
-                                {getInitials(customer.name)}
-                              </Avatar>
-                              <Typography color="textPrimary" variant="body1">
-                                {customer.name.toLowerCase()}
-                              </Typography>
-                            </Box>
-                          </TableCell>
+                                <Avatar
+                                  className={classes.avatar}
+                                  src={customer.image}
+                                >
+                                  {getInitials(customer.name)}
+                                </Avatar>
+                                <Typography color="textPrimary" variant="body1">
+                                  {customer.name.toLowerCase()}
+                                </Typography>
+                              </Box>
+                            </TableCell>
 
-                          <TableCell style={{ verticalAlign: 'middle' }}>
-                            {customer.verifyStatus ? (
-                              <CheckCircleIcon color="primary" />
-                            ) : null}
-                          </TableCell>
+                            <TableCell style={{ verticalAlign: 'middle' }}>
+                              {customer.verifyStatus ? (
+                                <CheckCircleIcon color="primary" />
+                              ) : null}
+                            </TableCell>
 
-                          <TableCell>{customer.email}</TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </PerfectScrollbar>
-            <TablePagination
-              component="div"
-              count={users.length}
-              onChangePage={handlePageChange}
-              onChangeRowsPerPage={handleLimitChange}
-              page={page}
-              rowsPerPage={limit}
-              rowsPerPageOptions={[5, 10, 25]}
-            />
-          </Card>
+                            <TableCell>{customer.email}</TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+              </PerfectScrollbar>
+              <TablePagination
+                component="div"
+                count={users.length}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={handleLimitChange}
+                page={page}
+                rowsPerPage={limit}
+                rowsPerPageOptions={[5, 10, 25]}
+              />
+            </Card>
+          ) : null}
         </>
       ) : null}
     </div>
