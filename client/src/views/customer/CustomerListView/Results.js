@@ -201,7 +201,10 @@ const Results = ({ className, customers, tags, ...rest }) => {
   useEffect(() => {
     if (state) {
       const { tagsSelected } = state;
-      if (tagsSelected.length) {
+      if (
+        tagsSelected.length > 0 &&
+        JSON.stringify(tagsSelected) !== JSON.stringify(selectedTags)
+      ) {
         setIsLoading(true);
         setSelectedTags(tagsSelected);
         researchUserByTag(tagsSelected);
