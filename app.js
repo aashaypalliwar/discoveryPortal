@@ -54,6 +54,12 @@ app.use('/api/v1/auth', authRouter);
 //Admin Endpoints
 app.use('/api/v1/admin', adminRouter);
 
+//Digital Asset Configuration for webview
+app.get('/.well-known/assetlinks.json', (req, res) => {
+  res.header("Content-Type",'application/json');
+  res.sendFile(path.join(__dirname, 'assetlinks.json'));
+})
+
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
