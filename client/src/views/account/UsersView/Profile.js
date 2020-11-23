@@ -167,8 +167,10 @@ const Profile = ({
   const { state } = useLocation();
   let navigate = useNavigate();
   const navigateBack = () => {
-    const { tagsSelected } = state;
-    navigate('/discover', { state: { tagsSelected: tagsSelected } });
+    const { tagsSelected, currentPage } = state;
+    navigate('/discover', {
+      state: { tagsSelected: tagsSelected, currentPage: currentPage }
+    });
   };
   return (
     <div>

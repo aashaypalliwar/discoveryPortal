@@ -66,6 +66,13 @@ const useStyles = makeStyles(theme => ({
     fontSize: 17,
     paddingTop: 8,
     paddingBottom: 8
+  },
+  actions: {
+    marginLeft: 0,
+    marginRight: 5
+  },
+  input: {
+    marginRight: 8
   }
 }));
 
@@ -195,12 +202,13 @@ const Results = ({ className, customers, tags, ...rest }) => {
 
   const getOtherProfile = id => {
     let url = '/user/' + id;
-    navigate(url, { state: { tagsSelected: selectedTags } });
+    navigate(url, { state: { tagsSelected: selectedTags, currentPage: page } });
   };
   const { state } = useLocation();
   useEffect(() => {
     if (state) {
-      const { tagsSelected } = state;
+      const { tagsSelected, currentPage } = state;
+      setPage(currentPage);
       if (
         tagsSelected.length > 0 &&
         JSON.stringify(tagsSelected) !== JSON.stringify(selectedTags)
@@ -392,6 +400,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
                   </Table>
                 </Box>
               </PerfectScrollbar>
+
               <TablePagination
                 component="div"
                 count={users.length}
@@ -400,6 +409,8 @@ const Results = ({ className, customers, tags, ...rest }) => {
                 page={page}
                 rowsPerPage={limit}
                 rowsPerPageOptions={[5, 10, 25]}
+                labelRowsPerPage="Rows:"
+                classes={classes}
               />
             </Card>
           ) : null}
