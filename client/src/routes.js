@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout';
 import AccountView from 'src/views/account/AccountView';
 import UsersView from 'src/views/account/UsersView';
@@ -9,6 +9,7 @@ import AdminListView from 'src/views/Admin/AdminListView';
 import UpdateView from 'src/views/account/UpdateView';
 
 const setUserAsProps = (user, cookies) => {
+  // let navigate = useNavigate();
   return [
     {
       path: '/',
@@ -19,8 +20,8 @@ const setUserAsProps = (user, cookies) => {
         { path: 'discover', element: <CustomerListView /> },
         { path: 'admin', element: <AdminListView user={user} /> },
         { path: 'user/:id', element: <UsersView user={user} /> },
-        { path: '/', element: <Navigate to="/discover" /> },
-        { path: '*', element: <Navigate to="/discover" /> }
+        { path: '/', element: <Navigate to="/discover" replace /> },
+        { path: '*', element: <Navigate to="/discover" replace /> }
       ]
     }
   ];

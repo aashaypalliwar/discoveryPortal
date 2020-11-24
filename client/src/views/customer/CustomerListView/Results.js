@@ -202,9 +202,12 @@ const Results = ({ className, customers, tags, ...rest }) => {
 
   const getOtherProfile = id => {
     let url = '/user/' + id;
-    navigate(url, { state: { tagsSelected: selectedTags, currentPage: page } });
+    navigate(url, {
+      state: { tagsSelected: selectedTags, currentPage: page }
+    });
   };
   const { state } = useLocation();
+  // console.log(state);
   useEffect(() => {
     if (state) {
       const { tagsSelected, currentPage } = state;

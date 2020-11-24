@@ -169,6 +169,7 @@ const Profile = ({
   const navigateBack = () => {
     const { tagsSelected, currentPage } = state;
     navigate('/discover', {
+      replace: true,
       state: { tagsSelected: tagsSelected, currentPage: currentPage }
     });
   };
