@@ -117,6 +117,7 @@ const Results = ({ className, customers, tags, ...rest }) => {
         if (response.data.data.users.length) setUsers(response.data.data.users);
         else setUsers([]);
         setFilterVisibility(false);
+        setPage(0);
         setIsLoading(false);
       })
       .catch(err => console.log(err));
