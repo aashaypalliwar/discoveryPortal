@@ -115,6 +115,14 @@ const restrictTo = (...roles) => {
 //   createSendToken(newUser, 200, res);
 // });
 
+const isJunior = (email) => {
+  juniors = ['20cs', '20ec', '20ee', '20ce', '20mm', '20me'];
+  junior_program = email.slice(0, 4);
+  console.log(junior_program);
+  if (juniors.includes(junior_program)) return true;
+  else return false;
+};
+
 const googleLogin = catchAsync(async (req, res, next) => {
   const { tokenId } = req.body;
   if (!tokenId) {
@@ -153,7 +161,7 @@ const googleLogin = catchAsync(async (req, res, next) => {
                     await User.updateOne({ email }, { image: picture });
                     createSendToken(user, 200, res);
                   } else {
-                    if (config.SIGNUP_TOGGLE == 'true') {
+                    if (!isJunior(email)) {
                       const newUser = await User.create({
                         name: name,
                         email: email,
